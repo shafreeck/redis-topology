@@ -2,6 +2,8 @@
 
 ## redis.txt
 
+List host and port in files each line, separated host and port by space.
+
 ```
 host1 port1
 host2 port2
