@@ -1,5 +1,7 @@
 # Print Redis Topology
 
+Print slaves of redis masters
+
 ## redis.txt
 
 List host and port in files each line, separated host and port by space.
