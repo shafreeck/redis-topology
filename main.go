@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 	"unicode/utf8"
 
 	"github.com/go-redis/redis"
@@ -24,12 +25,15 @@ type Redis struct {
 func getSlaves(masterHost string, masterPort int) []Redis {
 	var slaves []Redis
 	c := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%d", masterHost, masterPort),
-		Password: options.auth,
+		Addr:         fmt.Sprintf("%s:%d", masterHost, masterPort),
+		Password:     options.auth,
+		DialTimeout:  100 * time.Millisecond,
+		ReadTimeout:  100 * time.Millisecond,
+		WriteTimeout: 100 * time.Millisecond,
 	})
 	text, err := c.Do("info", "replication").String()
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 	lines := strings.Split(text, "\n")
 	re := regexp.MustCompile("slave[0-9]*:ip=(.*),port=([0-9]+),state=([a-z]+).*")
