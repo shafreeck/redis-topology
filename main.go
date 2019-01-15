@@ -27,9 +27,9 @@ func getSlaves(masterHost string, masterPort int) []Redis {
 	c := redis.NewClient(&redis.Options{
 		Addr:         fmt.Sprintf("%s:%d", masterHost, masterPort),
 		Password:     options.auth,
-		DialTimeout:  100 * time.Millisecond,
-		ReadTimeout:  100 * time.Millisecond,
-		WriteTimeout: 100 * time.Millisecond,
+		DialTimeout:  time.Second,
+		ReadTimeout:  time.Second,
+		WriteTimeout: time.Second,
 	})
 	text, err := c.Do("info", "replication").String()
 	if err != nil {
